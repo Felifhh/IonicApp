@@ -1,13 +1,33 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Bienvenido Sr(a) {{cuenta}}</ion-title>
+  <ion-toolbar class="toolbar">
+    <ion-img class="imageInicio" [src]="imageUrl"></ion-img>
+    <ion-title #Titulo class="toolbar-title">Sistema de asistencia DuocUC</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicio</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <h1> Bienvenido {{ usuario.nombre }} {{ usuario.apellido }} </h1>
+  </ion-card>
+  <ion-tabs>
+
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button class="menu-buttom" (click)="goToInicio()">
+        <ion-icon class="menu-color" name="home"></ion-icon>
+        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Inicio</span>
+      </ion-tab-button>
+      <ion-tab-button class="menu-buttom" (click)="goToMiClase()">
+        <ion-icon class="menu-color" name="book"></ion-icon>
+        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mi Clase</span>
+      </ion-tab-button>
+      <ion-tab-button class="menu-buttom" (click)="goToMisDatos()">
+        <ion-icon class="menu-color" name="person"></ion-icon>
+        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mis Datos</span>
+      </ion-tab-button>
+      <ion-tab-button class="menu-buttom" (click)="cerrarSesion()">
+        <ion-icon class="menu-color" name="exit"></ion-icon>
+        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Cerrar Sesión</span>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

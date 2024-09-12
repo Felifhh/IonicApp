@@ -25,6 +25,11 @@ export class Usuario extends Persona {
         this.password = password;
         this.preguntaSecreta = preguntaSecreta;
         this.respuestaSecreta = respuestaSecreta;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.nivelEducacional = nivelEducacional;
+        this.fechaNacimiento = fechaNacimiento;
+
     }
 
     public buscarUsuarioValido(cuenta: string, password: string): Usuario | undefined {
@@ -116,7 +121,7 @@ export class Usuario extends Persona {
                 'Felipe',
                 'Fuentes',
                 NivelEducacional.findNivelEducacionalById(5)!,
-                new Date(2003, 12, 11)
+                new Date(2003, 11, 12)
             )
         ];
     }

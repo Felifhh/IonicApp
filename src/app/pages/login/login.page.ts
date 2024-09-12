@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
 
@@ -12,11 +12,12 @@ import { Usuario } from 'src/app/model/usuario';
 export class LoginPage implements OnInit {
 
   public usuario: Usuario;
-  imageUrl: string = 'assets/img/Logo_DuocUC.png';
+  imageUrl:string = 'https://www.duoc.cl/wp-content/themes/wordpress-duoc-cl/images/logo-duoc.svg';
+
 
   constructor(
     private router: Router,
-    private toastController: ToastController
+    private alertController: AlertController
   ) {
     this.usuario = new Usuario(
       '',
@@ -72,11 +73,18 @@ export class LoginPage implements OnInit {
     return true;
   }
 
-  private async mostrarMensaje(mensaje: string, duracion: number = 2000) {
-    const toast = await this.toastController.create({
+  private async mostrarMensaje(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
       message: mensaje,
-      duration: duracion
+      buttons: ['Confirmar']
     });
-    toast.present();
+    await alert.present();
   }
+
+
+  public RecuperarContrasena() {
+    this.router.navigate(['/pregunta']);
+  }
+
 }

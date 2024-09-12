@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+.toolbar {
+    display: flex;
+    align-items: center; 
+    --color: #ffffff;
+    --background: #000000;
+    padding: 0 16px;
+
+    ion-img.imageInicio {
+        width: auto;
+        height: 50px; 
+    }
+
+    ion-title.toolbar-title {
+        font-size: 15px;
+        width: auto;
+        padding: 15px;
+    }
+}
+
+.menu-buttom{
+    background: #fcb900;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.menu-color{
+    color: white;
+}
+.h1 {
+    font-family: 'Poppins', sans-serif;
+}
