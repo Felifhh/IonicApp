@@ -6,28 +6,43 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <h1> Bienvenido {{ usuario.nombre }} {{ usuario.apellido }} </h1>
-  </ion-card>
-  <ion-tabs>
 
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button class="menu-buttom" (click)="goToInicio()">
-        <ion-icon class="menu-color" name="home"></ion-icon>
-        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Inicio</span>
-      </ion-tab-button>
-      <ion-tab-button class="menu-buttom" (click)="goToMiClase()">
-        <ion-icon class="menu-color" name="book"></ion-icon>
-        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mi Clase</span>
-      </ion-tab-button>
-      <ion-tab-button class="menu-buttom" (click)="goToMisDatos()">
-        <ion-icon class="menu-color" name="person"></ion-icon>
-        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mis Datos</span>
-      </ion-tab-button>
-      <ion-tab-button class="menu-buttom" (click)="cerrarSesion()">
-        <ion-icon class="menu-color" name="exit"></ion-icon>
-        <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Cerrar Sesión</span>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+    <ion-card>
+      <ion-card #homecard>
+        <h1> ¡Bienvenido Sr(a)! </h1>
+        <h2> {{ usuario.nombre }} {{ usuario.apellido }} </h2>
+        <br>
+        <ion-img [src]="imageHome"></ion-img>
+        <br>
+        <h3>Escanee el QR de su clase aqui </h3>
+        <br>
+      </ion-card>
+    </ion-card>
+
+
+    <ion-tabs>
+      <ion-button (click)="goToMisDatos()" expand="block" fill="solid" shape="round">
+        <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+        Escanear QR
+      </ion-button>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button class="menu-buttom-elegido" (click)="goToInicio()">
+          <ion-icon class="menu-color" name="home"></ion-icon>
+          <span style="color: white; text-shadow: 2px 2px 4px rgb(255, 253, 253);">Inicio</span>
+        </ion-tab-button>
+        <ion-tab-button class="menu-buttom" (click)="goToMiClase()">
+          <ion-icon class="menu-color" name="book"></ion-icon>
+          <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mi Clase</span>
+        </ion-tab-button>
+        <ion-tab-button class="menu-buttom" (click)="goToMisDatos()">
+          <ion-icon class="menu-color" name="person"></ion-icon>
+          <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mis Datos</span>
+        </ion-tab-button>
+        <ion-tab-button class="menu-buttom" (click)="cerrarSesion()">
+          <ion-icon class="menu-color" name="exit"></ion-icon>
+          <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Cerrar Sesión</span>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+
 </ion-content>

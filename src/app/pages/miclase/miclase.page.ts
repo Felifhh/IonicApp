@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { NivelEducacional } from 'src/app/model/nivel-educacional';
+import { Usuario } from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-miclase',
@@ -9,18 +11,28 @@ import { AlertController } from '@ionic/angular';
 })
 export class MiclasePage implements OnInit {
 
-  cuenta: string;
+  public usuario: Usuario;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private alertController: AlertController
-  ) {
-    this.cuenta = '';
+  )  {
+    this.usuario = new Usuario(
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      NivelEducacional.findNivelEducacionalById(1)!,
+      undefined
+    );
     this.activatedRoute.queryParams.subscribe(params => {
       const navigation = this.router.getCurrentNavigation();
-      if (navigation && navigation.extras.state) {
-        this.cuenta = navigation.extras.state['cuenta'];
+      if (navigation && navigation.extras.state && navigation.extras.state['usuario']) {
+        this.usuario = navigation.extras.state['usuario'];
       }
     });
   }

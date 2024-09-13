@@ -10,12 +10,15 @@ import { Usuario } from 'src/app/model/usuario';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit, AfterViewInit {
+export class InicioPage implements OnInit {
 
   @ViewChild('Titulo', { read: ElementRef }) itemTitulo!: ElementRef;
+  @ViewChild('homecard', { read: ElementRef }) itemHomecard!: ElementRef;
+
 
   public usuario: Usuario;
   imageUrl: string = 'https://www.duoc.cl/wp-content/themes/wordpress-duoc-cl/images/logo-duoc.svg';
+  imageHome: string = 'assets/img/Chico-Home-Page.jpeg';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -83,7 +86,7 @@ export class InicioPage implements OnInit, AfterViewInit {
     await alert.present();
   }
 
-  public ngAfterViewInit(): void {
+  ionViewDidEnter() {
     if (this.itemTitulo) {
       const animation = this.animationController
         .create()
@@ -93,8 +96,17 @@ export class InicioPage implements OnInit, AfterViewInit {
         .fromTo('transform', 'translate(-45%)', 'translate(110%)');
       animation.play();
     }
-  }
 
+    if (this.itemHomecard) {
+      const animation = this.animationController
+        .create()
+        .addElement(this.itemHomecard.nativeElement)
+        .iterations(1)
+        .duration(4000)
+        .fromTo('opacity', '0', '1'); 
+      animation.play();
+    }
   }
+}
 
 

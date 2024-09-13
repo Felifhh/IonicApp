@@ -7,16 +7,16 @@
     </ion-card>
     <ion-list class="ListaInicioSesion">
       <span class="LoginItemTitulo">
-        {{usuario.preguntaSecreta }}
+        Recuperacion de contraseña
       </span>
       <br><br>
       <ion-item class="LoginItem">
-        <ion-input [(ngModel)]="usuario.respuestaSecreta" labelPlacement="floating" label="Respuesta"
-          Placeholder="Respuesta Secreta"></ion-input>
+        <ion-input [(ngModel)]="usuario.correo" labelPlacement="floating" label="Correo"
+          Placeholder="fefuentesh@duocuc.cl"></ion-input>
       </ion-item>
       <br>
-      <ion-button (click)="ResponderPregunta()" fill="solid">
-        Responder
+      <ion-button (click)="RecuperarContrasena()" fill="solid">
+        Recuperar contraseña
         <ion-icon slot="end" name="person-circle"></ion-icon>
       </ion-button>
       <br>

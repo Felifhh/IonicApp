@@ -45,6 +45,56 @@ export class Usuario extends Persona {
         return 'Para ingresar al sistema debe ingresar una cuenta y contraseña válidos.';
     }
 
+    public buscarRespuestaSecreta(respuestaSecreta: string):Usuario | undefined{
+        return Usuario.getListaUsuarios().find(
+            usu => usu.respuestaSecreta === respuestaSecreta
+        )
+    }
+
+    public validarRespuesta(): string {
+        if(this.buscarRespuestaSecreta(this.respuestaSecreta)){
+            return '';
+        }
+        return '';
+    }
+
+    public validarRespuestaSecreta(): string {
+        return this.validarRespuesta();
+    }
+
+
+    public buscarCorreoValido(correo: string): Usuario | undefined {
+        return Usuario.getListaUsuarios().find(
+            usu => usu.correo === correo
+        );
+    }
+
+    public validarCorreo(): string {
+        if(this.buscarCorreoValido(this.correo)){
+            return '';
+        }
+        return 'Su correo no esta registrado';
+    }
+
+    public validarRecuperacion(): string {
+        return this.validarCorreo();
+    }
+
+    public validarFormato(): string {
+        if (this.correo.trim() === ''){
+            return 'Para recuperar la conntraseña debe ingresar su correo'
+        }
+        const correoValido =/@.*\./;
+        if (!correoValido.test(this.correo)) {
+            return 'El formato del correo electrónico no es válido.';
+    } 
+    return '';
+}
+public validarFormatoCorreo(): string {
+    return this.validarFormato();
+}
+
+
     public validarPassword(): string {
         if (this.password.trim() === '') {
             return 'Para entrar al sistema debe ingresar la contraseña.';
