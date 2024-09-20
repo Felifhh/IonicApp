@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, AnimationController } from '@ionic/angular';
+import { Usuario } from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-misdatos',
@@ -9,41 +10,35 @@ import { AlertController } from '@ionic/angular';
 })
 export class MisdatosPage implements OnInit {
 
-  cuenta: string;
+  @ViewChild('Titulo', { read: ElementRef }) itemTitulo!: ElementRef;
+
+  usuario: Usuario
+  imageUrl: string = 'https://www.duoc.cl/wp-content/themes/wordpress-duoc-cl/images/logo-duoc.svg';
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private animationController: AnimationController
   ) {
-    this.cuenta = '';
-    this.activatedRoute.queryParams.subscribe(params => {
-      const navigation = this.router.getCurrentNavigation();
-      if (navigation && navigation.extras.state) {
-        this.cuenta = navigation.extras.state['cuenta'];
-      }
-    });
+    this.usuario = new Usuario();
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
   ngOnInit() {
   }
 
 
+  // Navegacion de datos
   public goToInicio() {
-    this.router.navigate(['/inicio']);
+    this.usuario.navegarEnviandousuario(this.router, '/inicio');
   }
-
-
   public goToMiClase() {
-    this.router.navigate(['/miclase']);
+    this.usuario.navegarEnviandousuario(this.router, '/miclase');
   }
-
-
   public goToMisDatos() {
-    this.router.navigate(['/misdatos']);
+    this.usuario.navegarEnviandousuario(this.router, '/misdatos');
   }
-
-
   public async cerrarSesion() {
     const alert = await this.alertController.create({
       header: 'Cerrar Sesión',
@@ -64,7 +59,19 @@ export class MisdatosPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
+
+
+  ionViewDidEnter() {
+    if (this.itemTitulo) {
+      const animation = this.animationController
+        .create()
+        .addElement(this.itemTitulo.nativeElement)
+        .iterations(Infinity)
+        .duration(5000)
+        .fromTo('transform', 'translate(-45%)', 'translate(110%)');
+      animation.play();
+    }
+}
 }

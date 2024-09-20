@@ -11,34 +11,18 @@ import { Usuario } from 'src/app/model/usuario';
 })
 export class PreguntaPage implements OnInit {
 
-  public usuario: Usuario;
+  usuario: Usuario;
   imageUrl:string = 'https://www.duoc.cl/wp-content/themes/wordpress-duoc-cl/images/logo-duoc.svg';
 
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private alertController: AlertController
-  ) {
-    this.usuario = new Usuario(
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      NivelEducacional.findNivelEducacionalById(1)!,
-      undefined
-    );
-    this.usuario.respuestaSecreta = ' '
-    this.activatedRoute.queryParams.subscribe(params => {
-      const navigation = this.router.getCurrentNavigation();
-      if (navigation && navigation.extras.state && navigation.extras.state['usuario']) {
-        this.usuario = navigation.extras.state['usuario'];
-      }
-    });
-  }
+    constructor(
+      private activatedRoute: ActivatedRoute,
+      private router: Router,
+      private alertController: AlertController
+    ) {
+      this.usuario = new Usuario();
+      this.usuario.recibirConCorreo(this.activatedRoute, this.router);
+    }
 
   ngOnInit() { }
 
@@ -56,10 +40,10 @@ export class PreguntaPage implements OnInit {
           }
         };
 
-        await this.router.navigate(['/correcto'], extras);
+        await this.usuario.navegarEnviandousuario2(this.router, '/correcto');
         this.mostrarMensaje('Contraseña Recuperada');
       } else {
-        this.router.navigate(['/incorrecto']);
+        this.usuario.navegarEnviandousuario2(this.router, '/incorrecto');
         this.mostrarMensaje('Contraseña No Recuperada');
       }
     }

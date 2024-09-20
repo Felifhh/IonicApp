@@ -1,0 +1,67 @@
+ion-header {
+    ion-toolbar {
+      display: flex;
+      justify-content: center;
+      ion-title {
+        text-align: center;
+        flex: 1;
+      }
+    }
+  }
+
+.InicioSesion {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    height: 100vh; 
+    background-image: url(/assets/img/PalacioAlonsoOvalle.png);
+    background-size: cover;
+    background-position: center;
+}
+  
+.ListaInicioSesion {
+    background-color: #111010;
+    padding: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+  
+.LoginItem{
+    margin-bottom: 10px;
+}
+
+.LoginItemTitulo{
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    
+    
+}
+
+
+ion-button {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    color: aliceblue;
+    
+
+}
+
+.imageLogin {
+    padding: 20px;
+    background: rgba(9, 9, 9, 0.6);
+    border-radius: 10px;
+    width: 80%;
+    margin: auto;
+
+}
+
+.imageLogin2 {
+    background: rgba(9, 9, 9, 0.6);
+    border-radius: 10px;
+    width: 80%;
+}

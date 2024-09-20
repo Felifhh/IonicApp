@@ -1,13 +1,34 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>incorrecto</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">incorrecto</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="InicioSesion">
+    <ion-card class="imageLogin2">
+      <ion-img [src]="imageUrl2"></ion-img>
+    </ion-card>
+    <ion-list class="ListaInicioSesion">
+      <span class="LoginItemTitulo">
+        Ingreso su respuesta secreta incorrectamente
+      </span>
+      <ion-card class="imageLogin">
+        <ion-img [src]="imageUrl"></ion-img>
+      </ion-card>
+      
+      <ion-card-content>
+        <ion-button (click)="VolverLogin()" fill="none">
+          Volver
+        </ion-button>
+      </ion-card-content>
+    </ion-list>
+  </div>
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title style="font-size: small;">
+      © 2024 DuocUC
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
@@ -26,42 +26,24 @@ export class InicioPage implements OnInit {
     private alertController: AlertController,
     private animationController: AnimationController
   ) {
-    this.usuario = new Usuario(
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      NivelEducacional.findNivelEducacionalById(1)!,
-      undefined
-    );
-    this.activatedRoute.queryParams.subscribe(params => {
-      const navigation = this.router.getCurrentNavigation();
-      if (navigation && navigation.extras.state && navigation.extras.state['usuario']) {
-        this.usuario = navigation.extras.state['usuario'];
-      } else {
-        this.router.navigate(['/login']);  // En caso de no encontrar usuario, redirige al login
-      }
-    });
+    this.usuario = new Usuario();
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
   ngOnInit() {
   }
 
+
+  // Navegacion de datos
   public goToInicio() {
-    this.router.navigate(['/inicio']);
+    this.usuario.navegarEnviandousuario(this.router, '/inicio');
   }
-
   public goToMiClase() {
-    this.router.navigate(['/miclase']);
+    this.usuario.navegarEnviandousuario(this.router, '/miclase');
   }
-
   public goToMisDatos() {
-    this.router.navigate(['/misdatos']);
+    this.usuario.navegarEnviandousuario(this.router, '/misdatos');
   }
-
   public async cerrarSesion() {
     const alert = await this.alertController.create({
       header: 'Cerrar Sesión',
@@ -82,9 +64,9 @@ export class InicioPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
+
 
   ionViewDidEnter() {
     if (this.itemTitulo) {

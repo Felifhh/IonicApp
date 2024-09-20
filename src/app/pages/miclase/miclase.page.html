@@ -1,35 +1,75 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>miclase</ion-title>
+  <ion-toolbar class="toolbar">
+    <ion-img class="imageInicio" [src]="imageUrl"></ion-img>
+    <ion-title #Titulo class="toolbar-title">Sistema de asistencia DuocUC</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-card>
+    <ion-card #homecard>
+    <ion-card-header>
+      <ion-card-title>Datos del QR:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="borde">
+      <table *ngIf="datosQRObjeto">
+        <tr *ngFor="let key of getKeys(datosQRObjeto)">
+          <td><strong>{{ key }}</strong></td>
+          <td>{{ datosQRObjeto[key] }}</td>
+        </tr>
+      </table>
+      <h2 *ngIf="!datosQRObjeto">
+        Sin información
+      </h2>
+    </ion-card-content>
+  </ion-card>
+</ion-card>
+
+<ion-tabs>
+  <ion-button (click)="limpiarDatosQR()" expand="full" shape="round">
+    <ion-icon slot="start" name="trash"></ion-icon>
+    Limpiar Datos QR
+  </ion-button>
   
+  <input #fileinput hidden id="input-file" type="file" accept="image/*;capture=camera" 
+    (change)="onFileSelected($event)" />
+    <ion-button (click)="cargarImagenDesdeArchivo()" expand="full" shape="round">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Cargar Imagen con Código QR
+    </ion-button>
+
+  <ion-button *ngIf="!escaneando" (click)="comenzarEscaneoQR()" expand="full" shape="round">
+    <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+    Comenzar Escaneo de QR
+  </ion-button>
+
+  <ion-button *ngIf="escaneando" (click)="detenerEscaneoQR()" expand="full" shape="round">
+    <ion-icon slot="start"  name="qr-code-outline"></ion-icon>
+    Detener escaneo de QR
+  </ion-button>
+
+  <video #video [hidden]="!escaneando" width="100%"></video>
+  <canvas #canvas hidden></canvas>
 
 
-
-
-
-
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button (click)="goToInicio()">
-        <ion-icon name="home"></ion-icon>
-        Inicio
-      </ion-tab-button>
-      <ion-tab-button (click)="goToMiClase()">
-        <ion-icon name="book"></ion-icon>
-        Mi Clase
-      </ion-tab-button>
-      <ion-tab-button (click)="goToMisDatos()">
-        <ion-icon name="person"></ion-icon>
-        Mis Datos
-      </ion-tab-button>
-      <ion-tab-button (click)="cerrarSesion()">
-        <ion-icon name="exit"></ion-icon>
-        Cerrar Sesión
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button class="menu-buttom" (click)="goToInicio()">
+      <ion-icon class="menu-color" name="home"></ion-icon>
+      <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Inicio</span>
+    </ion-tab-button>
+    <ion-tab-button class="menu-buttom-elegido" (click)="goToMiClase()">
+      <ion-icon class="menu-color" name="book"></ion-icon>
+      <span style="color: white; text-shadow: 2px 2px 4px rgba(225, 253, 253);">Mi Clase</span>
+    </ion-tab-button>
+    <ion-tab-button class="menu-buttom" (click)="goToMisDatos()">
+      <ion-icon class="menu-color" name="person"></ion-icon>
+      <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Mis Datos</span>
+    </ion-tab-button>
+    <ion-tab-button class="menu-buttom" (click)="cerrarSesion()">
+      <ion-icon class="menu-color" name="exit"></ion-icon>
+      <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Cerrar Sesión</span>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
 </ion-content>

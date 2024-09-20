@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+.toolbar {
+    display: flex;
+    align-items: center; 
+    --color: #ffffff;
+    --background: #000000;
+    padding: 0 16px;
+
+    ion-img.imageInicio {
+        width: auto;
+        height: 50px; 
+    }
+
+    ion-title.toolbar-title {
+        font-size: 15px;
+        width: auto;
+        padding: 15px;
+    }
+}
+
+.menu-buttom{
+    background: #fcb900;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+.menu-buttom-elegido{
+    background: #e9ac05;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.menu-color{
+    color: white;
+}
+h1 {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: auto;
+    font-size: 18px;
+}
+h2 {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: auto;
+    font-size: 15px;
+}
+h3 {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: auto;
+    font-size: 18px;
+}

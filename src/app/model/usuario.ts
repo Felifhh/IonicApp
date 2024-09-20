@@ -1,3 +1,4 @@
+import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { NivelEducacional } from "./nivel-educacional";
 import { Persona } from "./persona";
 
@@ -8,7 +9,20 @@ export class Usuario extends Persona {
     public preguntaSecreta: string;
     public respuestaSecreta: string;
 
-    public constructor(
+    constructor() {
+        super();
+        this.cuenta = '';
+        this.correo = '';
+        this.password = '';
+        this.preguntaSecreta = '';
+        this.respuestaSecreta = '';
+        this.nombre = '';
+        this.apellido = '';
+        this.nivelEducacional = NivelEducacional.findNivelEducacionalById(1)!;
+        this.fechaNacimiento = undefined;
+    }
+
+    public static getNewUsuario(
         cuenta: string,
         correo: string,
         password: string,
@@ -19,40 +33,41 @@ export class Usuario extends Persona {
         nivelEducacional: NivelEducacional,
         fechaNacimiento: Date | undefined
     ) {
-        super();
-        this.cuenta = cuenta;
-        this.correo = correo;
-        this.password = password;
-        this.preguntaSecreta = preguntaSecreta;
-        this.respuestaSecreta = respuestaSecreta;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.nivelEducacional = nivelEducacional;
-        this.fechaNacimiento = fechaNacimiento;
-
+        let usuario = new Usuario();
+        usuario.cuenta = cuenta;
+        usuario.correo = correo;
+        usuario.password = password;
+        usuario.preguntaSecreta = preguntaSecreta;
+        usuario.respuestaSecreta = respuestaSecreta;
+        usuario.nombre = nombre;
+        usuario.apellido = apellido;
+        usuario.nivelEducacional = nivelEducacional;
+        usuario.fechaNacimiento = fechaNacimiento;
+        return usuario;
     }
 
-    public buscarUsuarioValido(cuenta: string, password: string): Usuario | undefined {
+    public static buscarUsuarioValido(cuenta: string, password: string): Usuario | undefined {
         return Usuario.getListaUsuarios().find(
             usu => usu.cuenta === cuenta && usu.password === password
         );
     }
 
     public validarCuenta(): string {
-        if (this.buscarUsuarioValido(this.cuenta, this.password)) {
-            return '';
+        const usu = Usuario.buscarUsuarioValido(this.cuenta, this.password);
+        if (!usu) {
+            return 'Ingrese un usuario u contraseña validos';
         }
-        return 'Para ingresar al sistema debe ingresar una cuenta y contraseña válidos.';
+        return '';
     }
 
-    public buscarRespuestaSecreta(respuestaSecreta: string):Usuario | undefined{
+    public buscarRespuestaSecreta(respuestaSecreta: string): Usuario | undefined {
         return Usuario.getListaUsuarios().find(
             usu => usu.respuestaSecreta === respuestaSecreta
         )
     }
 
     public validarRespuesta(): string {
-        if(this.buscarRespuestaSecreta(this.respuestaSecreta)){
+        if (this.buscarRespuestaSecreta(this.respuestaSecreta)) {
             return '';
         }
         return '';
@@ -63,36 +78,19 @@ export class Usuario extends Persona {
     }
 
 
-    public buscarCorreoValido(correo: string): Usuario | undefined {
+    public static buscarCorreoValido(correo: string): Usuario | undefined {
         return Usuario.getListaUsuarios().find(
             usu => usu.correo === correo
         );
     }
 
     public validarCorreo(): string {
-        if(this.buscarCorreoValido(this.correo)){
-            return '';
+        const usu = Usuario.buscarCorreoValido(this.correo); 
+        if (!usu) {
+            return 'Ingrese un correo valido';
         }
-        return 'Su correo no esta registrado';
+        return '';
     }
-
-    public validarRecuperacion(): string {
-        return this.validarCorreo();
-    }
-
-    public validarFormato(): string {
-        if (this.correo.trim() === ''){
-            return 'Para recuperar la conntraseña debe ingresar su correo'
-        }
-        const correoValido =/@.*\./;
-        if (!correoValido.test(this.correo)) {
-            return 'El formato del correo electrónico no es válido.';
-    } 
-    return '';
-}
-public validarFormatoCorreo(): string {
-    return this.validarFormato();
-}
 
 
     public validarPassword(): string {
@@ -140,7 +138,7 @@ public validarFormatoCorreo(): string {
 
     public static getListaUsuarios(): Usuario[] {
         return [
-            new Usuario(
+            Usuario.getNewUsuario(
                 'omfuentes',
                 'omfuentes@duocuc.cl',
                 '1290',
@@ -151,7 +149,7 @@ public validarFormatoCorreo(): string {
                 NivelEducacional.findNivelEducacionalById(5)!,
                 new Date(2000, 0, 1)
             ),
-            new Usuario(
+            Usuario.getNewUsuario(
                 'chcornejo',
                 'chcornejo@duocuc.cl',
                 '0987',
@@ -162,7 +160,7 @@ public validarFormatoCorreo(): string {
                 NivelEducacional.findNivelEducacionalById(5)!,
                 new Date(2000, 1, 1)
             ),
-            new Usuario(
+            Usuario.getNewUsuario(
                 'fefuentes',
                 'fefuentesh@duocuc.cl',
                 '1234',
@@ -175,4 +173,79 @@ public validarFormatoCorreo(): string {
             )
         ];
     }
+
+    recibirUsuario(activatedRoute: ActivatedRoute, router: Router) {
+        activatedRoute.queryParams.subscribe(() => {
+            const nav = router.getCurrentNavigation();
+            if (nav) {
+                if (nav.extras.state) {
+                    const cuenta = nav.extras.state['cuenta'];
+                    const password = nav.extras.state['password'];
+                    const usu = Usuario.buscarUsuarioValido(cuenta, password)!;
+                    this.cuenta = usu.cuenta;
+                    this.correo = usu.correo;
+                    this.password = usu.password;
+                    this.preguntaSecreta = usu.preguntaSecreta;
+                    this.respuestaSecreta = usu.respuestaSecreta;
+                    this.nombre = usu.nombre;
+                    this.apellido = usu.apellido;
+                    this.nivelEducacional = usu.nivelEducacional;
+                    this.fechaNacimiento = usu.fechaNacimiento;
+                    return;
+                }
+            }
+            router.navigate(['/login']);
+        });
+    }
+
+    navegarEnviandousuario(router: Router, pagina: string) {
+        const navigationExtras: NavigationExtras = {
+            state: {
+                cuenta: this.cuenta,
+                password: this.password,
+            }
+        }
+        if (this.cuenta !== '' && this.password !== '')
+            router.navigate([pagina], navigationExtras);
+        else
+            router.navigate([pagina]);
+    }
+
+    recibirConCorreo(activatedRoute: ActivatedRoute, router: Router) {
+        activatedRoute.queryParams.subscribe(() => {
+            const nav = router.getCurrentNavigation();
+            if (nav) {
+                if (nav.extras.state) {
+                    const correo = nav.extras.state['correo'];
+                    const usu = Usuario.buscarCorreoValido(correo)!;
+                    this.cuenta = usu.cuenta;
+                    this.correo = usu.correo;
+                    this.password = usu.password;
+                    this.preguntaSecreta = usu.preguntaSecreta;
+                    this.respuestaSecreta = usu.respuestaSecreta;
+                    this.nombre = usu.nombre;
+                    this.apellido = usu.apellido;
+                    this.nivelEducacional = usu.nivelEducacional;
+                    this.fechaNacimiento = usu.fechaNacimiento;
+                    return;
+                }
+            }
+            router.navigate(['/login']);
+        });
+    }
+
+    navegarEnviandousuario2(router: Router, pagina: string) {
+        const navigationExtras: NavigationExtras = {
+            state: {
+                correo: this.correo,
+            }
+        }
+        if (this.correo !== '')
+            router.navigate([pagina], navigationExtras);
+        else
+            router.navigate([pagina]);
+    }
+
+
+
 }

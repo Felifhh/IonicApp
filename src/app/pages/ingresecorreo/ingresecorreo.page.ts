@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
@@ -19,62 +19,21 @@ export class IngresecorreoPage implements OnInit {
     private router: Router,
     private alertController: AlertController
   ) {
-    this.usuario = new Usuario(
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      NivelEducacional.findNivelEducacionalById(1)!,
-      undefined
-    );
-    this.usuario.correo = 'fefuentesh@duocuc.cl'
+    this.usuario = new Usuario();
   }
 
   ngOnInit() { }
 
 
   public async RecuperarContrasena() {
-    if (this.usuario) {
-      if (!this.validarFormato(this.usuario)) return;
-      if (!this.validaRecuperacion(this.usuario)) return;
-
-      const usu = this.usuario.buscarCorreoValido(this.usuario.correo)
-
-      if(usu){
-        const extras: NavigationExtras = {
-          state: {
-            usuario : usu
-          }
-        };
-
-        await this.router.navigate(['/pregunta'], extras);
-        this.mostrarMensaje('Ingrese Respuesta');
-      } else {
-        this.mostrarMensaje('');
-      }
-    }
+    const error = this.usuario.validarCorreo();
+    if(error) {
+      this.mostrarMensaje(error);
+      return;
+    } 
+    this.mostrarMensaje('Ingrese su respuesta secreta');
+    this.usuario.navegarEnviandousuario2(this.router, '/pregunta');
   }
-
-  private validaRecuperacion(usuario: Usuario): boolean {
-    const mensajeError = usuario.validarCorreo();
-    if (mensajeError) {
-      this.mostrarMensaje(mensajeError);
-      return false;
-    }
-    return true;
-  }
-
-private validarFormato(usuario:Usuario): boolean{
-  const mensajeError = usuario.validarFormatoCorreo();
-  if (mensajeError) {
-    this.mostrarMensaje(mensajeError);
-    return false;
-  }
-  return true;
-}
 
 
   private async mostrarMensaje(mensaje: string) {
@@ -88,7 +47,7 @@ private validarFormato(usuario:Usuario): boolean{
 
 
   public goToLogin() {
-    this.router.navigate(['/login']);
+    this.usuario.navegarEnviandousuario(this.router, '/login');
   }
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
@@ -16,45 +16,25 @@ export class LoginPage implements OnInit {
 
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private alertController: AlertController
   ) {
-    this.usuario = new Usuario(
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      NivelEducacional.findNivelEducacionalById(1)!,
-      undefined
-    );
-    this.usuario.cuenta = 'fefuentes';
-    this.usuario.password = '1234';
+    this.usuario = new Usuario();
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
   ngOnInit() { }
 
   public async IniciarSesion() {
-    if (this.usuario) {
-      if (!this.validarUsuario(this.usuario)) return;
+    const error = this.usuario.validarUsuario();
+    if(error) {
+      this.mostrarMensaje(error);
+      return;
+    } 
+    this.mostrarMensaje('¡Bienvenido(a) al Sistema de Asistencia DUOC!');
+    this.usuario.navegarEnviandousuario(this.router, '/inicio');
 
-      const usu = this.usuario.buscarUsuarioValido(this.usuario.cuenta, this.usuario.password);
-
-      if (usu) {
-        const extras: NavigationExtras = {
-          state: {
-            usuario: usu
-          }
-        };
-
-        await this.router.navigate(['/inicio'], extras);
-        this.mostrarMensaje('¡Bienvenido(a) ' + this.usuario.cuenta + ' al Sistema de Asistencia DUOC!');
-      } else {
-        this.mostrarMensaje('Usuario o contraseña incorrectos.');
-      }
-    }
   }
 
   private validarUsuario(usuario: Usuario): boolean {
