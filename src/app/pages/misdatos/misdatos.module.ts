@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MisdatosPageRoutingModule } from './misdatos-routing.module';
 
 import { MisdatosPage } from './misdatos.page';
+import { MatDatepickerModule } from '@angular/material/datepicker'
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MisdatosPageRoutingModule
+    MisdatosPageRoutingModule,
+    MatDatepickerModule
   ],
   declarations: [MisdatosPage]
 })

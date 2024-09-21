@@ -9,12 +9,73 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card #homecard>
+    
+    <ion-item #itemCuenta>
+      <ion-input [(ngModel)]="usuario.cuenta"
+          label="Cuenta" labelPlacement="floating"
+          placeholder="Ej: fefeuntes"></ion-input>
+    </ion-item>
+
+    <ion-item #itemNombre>
+      <ion-input [(ngModel)]="usuario.nombre" 
+          label="Nombre" labelPlacement="floating"
+          placeholder="Ej: Felipe"></ion-input>
+    </ion-item>
+
+    <ion-item #itemApellido>
+      <ion-input [(ngModel)]="usuario.apellido"
+          label="Apellido" labelPlacement="floating"
+          placeholder="Ej: Fuentes"></ion-input>
+    </ion-item>
+
+    <ion-item #itemEducacion class="font-size-12">
+      <ion-select [(ngModel)]="usuario.nivelEducacional!.id"
+          (ionChange)="actualizarNivelEducacional($event)"
+          label="Educación" position="floating">
+        <ion-select-option *ngFor="let nivelEducacional of listaNivelesEducacionales" 
+          [value]="nivelEducacional.id">
+            {{nivelEducacional.nombre}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item #itemFechaNacimiento class="ion-padding-bottom">
+      <table>
+        <tr>
+          <td class="font-size-12" >
+            Nacimiento
+          </td>
+          <td class="cell-align-right">
+            <input
+              matInput 
+              [matDatepicker]="fechaNacimiento" 
+              [(ngModel)]="usuario.fechaNacimiento"
+              placeholder="dd/mm/yyyy"
+              class="date-width">
+          </td>
+          <td class="cell-width-0">
+            <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+            <mat-datepicker #fechaNacimiento></mat-datepicker>
+          </td>
+        </tr>
+      </table>
+    </ion-item>
+
+    <ion-button shape="round" size="small"
+        (click)="limpiarAnimando()">
+      Limpiar Datos
+    </ion-button>
+
+    <ion-button shape="round" size="small"
+        (click)="mostrarDatosPersona()">
+      Ver datos
+    </ion-button>
 
     </ion-card>
   </ion-card>
 
-
-  <ion-tabs>
+</ion-content>
+<ion-footer>
     <ion-tab-bar slot="bottom">
       <ion-tab-button class="menu-buttom" (click)="goToInicio()">
         <ion-icon class="menu-color" name="home"></ion-icon>
@@ -33,5 +94,4 @@
         <span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Cerrar Sesión</span>
       </ion-tab-button>
     </ion-tab-bar>
-  </ion-tabs>
-</ion-content>
+</ion-footer>
